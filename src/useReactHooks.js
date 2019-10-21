@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { subScribe, unSubScribe } from './pub';
 
-export default name => {
+export default namespace => {
   const [, setState] = useState();
   useEffect(() => {
-    subScribe(name, setState);
-    return () => unSubScribe(name, setState);
+    subScribe(namespace, setState);
+    return () => unSubScribe(namespace, setState);
   }, []);
 };

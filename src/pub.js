@@ -1,14 +1,26 @@
 const queue = {};
-export const broadcast = (name, state) => {
-  if (!queue[name]) return;
-  queue[name].forEach(fn => fn(state));
+
+/**
+ * 1. name: modulename, namespace
+ * 2. boardcast => publish
+ */
+
+export const broadcast = (namespace, state) => {
+  // 如果queue已存在namespace
+  if (!queue[namespace]) return;
+
+  // queue只会针对对应的namespace里的触发setState(即组件更新)
+  queue[namespace].forEach(setState => setState(state));
 };
-export const subScribe = (name, cb) => {
-  if (!queue[name]) queue[name] = [];
-  queue[name].push(cb);
+
+export const subScribe = (namespace, setState) => {
+  if (!queue[namespace]) queue[namespace] = [];
+  queue[namespace].push(setState);
 };
-export const unSubScribe = (name, cb) => {
-  if (!queue[name]) return;
-  const index = queue[name].indexOf(cb);
-  if (index !== -1) queue[name].splice(index, 1);
+
+export const unSubScribe = (namespace, setState) => {
+  if (!queue[namespace]) return;
+
+  const index = queue[namespace].indexOf(setState);
+  if (index !== -1) queue[namespace].splice(index, 1);
 };
