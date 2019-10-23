@@ -21,6 +21,7 @@ export const subScribe = (namespace, setState) => {
 export const unSubScribe = (namespace, setState) => {
   if (!queue[namespace]) return;
 
+  // 获取到了函数的reference
   const index = queue[namespace].indexOf(setState);
   if (index !== -1) queue[namespace].splice(index, 1);
 };
